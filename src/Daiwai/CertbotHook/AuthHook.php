@@ -2,26 +2,39 @@
 
 namespace Daiwai\CertbotHook;
 
+use SoapFault;
+
 class AuthHook extends AbstractHook implements Runnable
 {
+    /**
+     *
+     * @throws SoapFault
+     *
+     */
     public function run()
     {
-        $domain = $this->readDomain();
+        $cert_domain = $this->readDomain();
+        $reg_domain = $this->getRegisteredDomain($cert_domain);
+        $host = $this->getHost($cert_domain, $reg_domain);
+
         $validation_token = $this->readValidationToken();
 
-        $this->client->setTxtRecord($domain, $this->config['host'], $validation_token);
+        $this->client->setTxtRecord($reg_domain, $host, $validation_token);
 
-        $this->poll($domain, $validation_token);
+        $this->poll($reg_domain, $host, $validation_token);
 
         $this->logger->debug('done');
     }
 
+
     /**
-     * @param $domain
+     *
+     * @param $reg_domain
      * @param $validation_token
-     * @throws \SoapFault
+     * @throws SoapFault
+     *
      */
-    private function poll($domain, $validation_token)
+    private function poll($reg_domain, $host, $validation_token)
     {
         $t0 = time();
         while(true)
@@ -38,7 +51,7 @@ class AuthHook extends AbstractHook implements Runnable
             sleep($this->config['poll_interval']);
 
             $this->logger->info( "polling ...");
-            $deployed = $this->client->pollTxtRecord($domain, $this->config['host'], $validation_token);
+            $deployed = $this->client->pollTxtRecord($reg_domain, $host, $validation_token);
             $this->logger->info("deployed: " . ($deployed ? 'yes' : 'no'));
 
             if($deployed)
