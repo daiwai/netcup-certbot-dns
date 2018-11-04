@@ -1,0 +1,20 @@
+{
+    "name": "daiwai/netcup-certbot-dns",
+    "keywords" : ["netcup","letsencrypt","certbot","hook"],
+    "homepage" : "https://github.com/daiwai/netcup-certbot-dns",
+    "license": "GPL-3.0-or-later",
+    "require": {
+        "php":"^5.6 || ^7.0",
+        "ext-soap":"*",
+        "layershifter/tld-extract": "^1.2",
+        "fool/echolog": "^1.0"
+    },
+    "autoload": {
+        "psr-0": {
+            "": "src/Daiwai/NetcupDomainApi/WebserviceType/"
+        },
+        "psr-4" : {
+            "": "src/"
+        }
+    }
+}
