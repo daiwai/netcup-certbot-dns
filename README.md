@@ -42,8 +42,10 @@ enter your netcup API key, API pass, and customer ID:
 Pass the hooks to certbot when requesting a certificate for your domain:
 
     certbot certonly --manual --preferred-challenges=dns \
+    --server https://acme-v02.api.letsencrypt.org/directory \
     --manual-auth-hook 'netcup-dns/bin/auth.php' \
     --manual-cleanup-hook 'netcup-dns/bin/cleanup.php' \
+    --manual-public-ip-logging-ok \
     -d '*.example.com'
 
 [1]: https://certbot.eff.org/
