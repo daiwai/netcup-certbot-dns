@@ -16,5 +16,9 @@
         "psr-4" : {
             "": "src/"
         }
-    }
+    },
+    "bin": [
+        "bin/netcup-certbot-dns-auth",
+        "bin/netcup-certbot-dns-cleanup"
+    ]
 }
