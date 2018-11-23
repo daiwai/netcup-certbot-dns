@@ -25,8 +25,6 @@ foreach($autoload_locations as $idx => $autoload_location)
     }
 }
 
-require __DIR__ . '/../config.php';
-
 $configurator = new Configurator('auth', __DIR__, new OptionParser(), $in_vendor);
 $config = $configurator->config();
 
