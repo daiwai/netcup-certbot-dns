@@ -7,7 +7,21 @@ use Daiwai\NetcupDomainApi\Client;
 use LayerShifter\TLDExtract\Extract as TldExtractor;
 use fool\echolog\Echolog;
 
-require __DIR__ . '/../vendor/autoload.php';
+
+$autoload_locations = [
+    __DIR__ . '/../vendor/autoload.php',
+    __DIR__ . '/../../../autoload.php',
+];
+foreach($autoload_locations as $idx => $autoload_location)
+{
+    if(file_exists($autoload_location))
+    {
+        require $autoload_location;
+
+        break;
+    }
+}
+
 require __DIR__ . '/../config.php';
 
 $log_level = $argc == 2 && $argv[1] === '-q'
