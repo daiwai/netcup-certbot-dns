@@ -1,6 +1,6 @@
 <?php
 
-$config = [
+return [
     // netcup customer ID
     'customer_id'   => '',
 

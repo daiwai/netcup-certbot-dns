@@ -4,10 +4,12 @@
 use Daiwai\CertbotHook\AuthHook;
 use Daiwai\NetcupDomainApi\SoapWebservice;
 use Daiwai\NetcupDomainApi\Client;
+use Daiwai\Util\Configurator;
 use LayerShifter\TLDExtract\Extract as TldExtractor;
 use fool\echolog\Echolog;
 
 
+$in_vendor = false;
 $autoload_locations = [
     __DIR__ . '/../vendor/autoload.php',
     __DIR__ . '/../../../autoload.php',
@@ -16,6 +18,7 @@ foreach($autoload_locations as $idx => $autoload_location)
 {
     if(file_exists($autoload_location))
     {
+        $in_vendor = $idx === 1;
         require $autoload_location;
 
         break;
@@ -24,16 +27,15 @@ foreach($autoload_locations as $idx => $autoload_location)
 
 require __DIR__ . '/../config.php';
 
-$log_level = $argc == 2 && $argv[1] === '-q'
-    ? Psr\Log\LogLevel::EMERGENCY
-    : $config['log_level'];
+$configurator = new Configurator('auth', __DIR__, new OptionParser(), $in_vendor);
+$config = $configurator->config();
 
 try
 {
     $hook = new AuthHook(
         new Client(new SoapWebservice(), $config['customer_id'], $config['api_key'], $config['api_pass']),
         new TldExtractor(),
-        new Echolog($log_level),
+        new Echolog($config['log_level']),
         $config
     );
     $hook->run();

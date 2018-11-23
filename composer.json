@@ -7,7 +7,8 @@
         "php":"^5.6 || ^7.0",
         "ext-soap":"*",
         "layershifter/tld-extract": "^1.2",
-        "fool/echolog": "^1.0"
+        "fool/echolog": "^1.0",
+        "mjackson/optionparser": "dev-master"
     },
     "autoload": {
         "psr-0": {
