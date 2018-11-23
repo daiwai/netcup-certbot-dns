@@ -141,7 +141,7 @@ class Configurator
             $config['api_pass'] = $api_pass;
         }
 
-        $quiet = $configurator->getOption('q');
+        $quiet = $this->options->getOption('q');
         if($quiet !== false)
         {
             $config['log_level'] = LogLevel::EMERGENCY;
